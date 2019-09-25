@@ -45,7 +45,7 @@ public class MyAgent extends Agent {
 	  if(iCanWin() != -1) {
 	    moveOnColumn(iCanWin());
 	  }
-	  else if(iCanWin() == -1) {
+	  else if(iCanWin() == -1 ) {
 	    char [][] board = gameCopy.getBoardMatrix();
 	    int max = 0;
 	    int row = -1;
