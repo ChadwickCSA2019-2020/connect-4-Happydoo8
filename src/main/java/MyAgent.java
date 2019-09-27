@@ -45,61 +45,64 @@ public class MyAgent extends Agent {
 	  if(iCanWin() != -1) {
 	    moveOnColumn(iCanWin());
 	  }
-	  else if(iCanWin() == -1 ) {
+	  else if(theyCanWin() != -1) {
+      moveOnColumn(theyCanWin());
+    }
+	  else {
 	    char [][] board = gameCopy.getBoardMatrix();
 	    int max = 0;
-	    int row = -1;
 	    int col = -1;
 	    for(int i=0; i<3; i++) {
 	      for(int j=0; j<4; j++) {
-	        /*if (board[i][j] == 'B') {
-	          continue;
-	        }*/
 	        int count = 1;
 	        // Vertical checking
 	        if(board[i][j] == board[i+1][j] && board[i+2][j] == 'B') {
 	          count++;
 	        }
-	        else {
+	        /*else {
 	          this.moveOnColumn(this.randomMove());
-	        }
+	        }*/
 	        if(count > max) {
 	          max = count;
-	          row = i+2;
 	          col = j;
 	        }
-	        
+	      }
+	    }
+	    
+	    for(int i=0; i<3; i++) {
+	      for(int j=0; j<4; j++) {
 	        // Horizontal checking
 	        
-	        count = 1;
+	        int count = 1;
 	        if(board[i][j] == board[i][j+1]) {
 	          count++;
 	        }
-	        else {
+	        /*else {
 	          this.moveOnColumn(this.randomMove());
-	        }
+	        }*/
 	        if(count > max) {
 	          if(i==0 || board[i-1][j+2] != 'B' && board[i][j+2] == 'B') {
 	            max = count;
-	            row = i;
 	            col = j+2;
 	          }
 	        }
+	      }
+	    }
 	        
+	    for(int i=0; i<3; i++) {
+	      for(int j=3; j<7; j++) {
 	        // Major diagonal checking
-	        
-	        count = 1;
-	        if(board[i][j] == board[i+1][j+1]) {
+	        int count = 1;
+	        if(board[i][j] == board[i+1][j-1]) {
 	          count++;
 	        }
-	        else {
+	        /*else {
 	          this.moveOnColumn(this.randomMove());
-	        }
+	        }*/
 	        if(count > max) {
-	          if(board[i][j+2] != 'B' && board[i+1][j+2] == 'B') {
+	          if(board[i+1][j-2] != 'B' && board[i+2][j-2] == 'B') {
 	            max = count;
-	            row = i+1;
-	            col = j+2;
+	            col = j-2;
 	          }
 	        }
 	      }
@@ -108,19 +111,18 @@ public class MyAgent extends Agent {
 	    // Minor diagonal checking
 	    
 	    for(int i=0; i<3; i++) {
-	      for(int j=3; j<7; j++) {
+	      for(int j=0; j<4; j++) {
 	        int count = 1;
-	        if(board[i][j] == board[i+1][j-1]) {
+	        if(board[i][j] == board[i+1][j+1]) {
 	          count++;
 	        }
-	        else {
+	        /*else {
 	          this.moveOnColumn(this.randomMove());
-	        }
+	        }*/
 	        if(count > max) {
-	          if(board[i+1][j-2] != 'B' && board[i+2][j-2] == 'B') {
+	          if(board[i][j+2] != 'B' && board[i+1][j+2] == 'B') {
 	            max = count;
-	            row = i+2;
-	            col = j-2;
+	            col = j+2;
 	          }
 	        }
 	      }
@@ -131,7 +133,7 @@ public class MyAgent extends Agent {
 	    // If none, then try to change 1 in a row to 2 in a row.
 	    // If none, then place randomly
 	  }
-	  else if(theyCanWin() != -1) {
+	  if(theyCanWin() != -1) {
 	    moveOnColumn(randomMove());
 	  }
   }
@@ -203,11 +205,8 @@ public class MyAgent extends Agent {
   public int iCanWin() {
     Connect4Game gameCopy = new Connect4Game(myGame);
     MyAgent currentAgent = new MyAgent(gameCopy, iAmRed);
-//    Connect4Game gameCopy2 = new Connect4Game(myGame);
-//    MyAgent copyAgent2 = new MyAgent(gameCopy2, !iAmRed);
     for(int i=0; i<7; i++) {
       currentAgent.moveOnColumn(i);
-//      copyAgent2.moveOnColumn(i);
       if(iAmRed && gameCopy.gameWon() == 'R') {
         return i;
       }
@@ -215,15 +214,12 @@ public class MyAgent extends Agent {
         return i;
     
       }
-      
-//      
-//      else if(gameCopy2.gameWon() == 'Y') {
-//        return i;
-//      }
     }
+    return -1;
+  }
       
     
-    return -1;
+    
     
     
     // make a copy of the connect4 game
@@ -236,7 +232,7 @@ public class MyAgent extends Agent {
       // if you won, return the column you moved at
     // All of this should be in a for loop for every column
     // If you never win, return -1
-  }
+  
 
   /**
    * Returns the column that would allow the opponent to win.
