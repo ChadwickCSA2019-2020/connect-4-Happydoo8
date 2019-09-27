@@ -205,12 +205,12 @@ public class MyAgentTest {
       game.clearBoard(); 
       while(!game.boardFull() && game.gameWon() == 'N') {
         yellowAgent.move();
-        if (game.gameWon() != 'R') {
+        if (game.gameWon() != 'Y') {
           redAgent.move();
         }
-        if (game.gameWon() == 'Y') {
-          numberOfWins++;
-        }
+      }
+      if (game.gameWon() == 'Y') {
+        numberOfWins++;
       }
     }
     System.out.println("You won: " + numberOfWins + " games as Yellow against Beginner");
@@ -302,9 +302,9 @@ public class MyAgentTest {
         if (game.gameWon() != 'Y') {
           redAgent.move();
         }
-        if (game.gameWon() == 'Y') {
-          numberOfWins++;
-        }
+      }
+      if (game.gameWon() == 'Y') {
+        numberOfWins++;
       }
     }
     System.out.println("You won: " + numberOfWins + " games as Yellow against Intermediate");
@@ -325,9 +325,9 @@ public class MyAgentTest {
         if (game.gameWon() != 'R') {
           yellowAgent.move();
         }
-        if (game.gameWon() == 'R') {
-          numberOfWins++;
-        }
+      }
+      if (game.gameWon() == 'R') {
+        numberOfWins++;
       }
     }
     System.out.println("You won: " + numberOfWins + " games as Red against Advanced");
@@ -347,9 +347,9 @@ public class MyAgentTest {
         if (game.gameWon() != 'Y') {
           redAgent.move();
         }
-        if (game.gameWon() == 'Y') {
-          numberOfWins++;
-        }
+      }
+      if (game.gameWon() == 'Y') {
+        numberOfWins++;
       }
     }
     System.out.println("You won: " + numberOfWins + " games as Yellow against Advanced");
@@ -370,9 +370,9 @@ public class MyAgentTest {
         if (game.gameWon() != 'R') {
           yellowAgent.move();
         }
-        if (game.gameWon() == 'R') {
-          numberOfWins++;
-        }
+      }
+      if (game.gameWon() == 'R') {
+        numberOfWins++;
       }
     }
     System.out.println("You won: " + numberOfWins + " games as Red against Brilliant");
@@ -392,9 +392,9 @@ public class MyAgentTest {
         if (game.gameWon() != 'Y') {
           redAgent.move();
         }
-        if (game.gameWon() == 'Y') {
-          numberOfWins++;
-        }
+      }
+      if (game.gameWon() == 'Y') {
+        numberOfWins++;
       }
     }
     System.out.println("You won: " + numberOfWins + " games as Yellow against Brilliant");
