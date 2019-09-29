@@ -133,9 +133,6 @@ public class MyAgent extends Agent {
 	    // If none, then try to change 1 in a row to 2 in a row.
 	    // If none, then place randomly
 	  }
-	  if(theyCanWin() != -1) {
-	    moveOnColumn(randomMove());
-	  }
   }
 
   /**
@@ -157,6 +154,28 @@ public class MyAgent extends Agent {
         lowestEmptySlot.addRed(); // Place a red token into the empty slot
       } else {
         lowestEmptySlot.addYellow(); // Place a yellow token into the empty slot
+      }
+    }
+  }
+  /**
+   * Drops a token into a particular column so that it will fall to the bottom of the column.
+   * If the column is already full, nothing will change.
+   *
+   * @param columnNumber The column into which to drop the token.
+   */
+  public void removeOnColumn(int columnNumber) {
+    // Find the top empty slot in the column
+    // If the column is full, lowestEmptySlot will be -1
+    int lowestEmptySlotIndex = getLowestEmptyIndex(myGame.getColumn(columnNumber));
+    // if the column is not full
+    if (lowestEmptySlotIndex > -1) {
+      // get the slot in this column at this index
+      Connect4Slot lowestEmptySlot = myGame.getColumn(columnNumber).getSlot(lowestEmptySlotIndex-1);
+      // If the current agent is the Red player...
+      if (iAmRed) {
+        lowestEmptySlot.clear(); // Remove a red token from the filled slot
+      } else {
+        lowestEmptySlot.clear(); // Remove a yellow token from the filled slot
       }
     }
   }
@@ -203,17 +222,16 @@ public class MyAgent extends Agent {
    * @return the column that would allow the agent to win.
    */
   public int iCanWin() {
-    Connect4Game gameCopy = new Connect4Game(myGame);
-    MyAgent currentAgent = new MyAgent(gameCopy, iAmRed);
     for(int i=0; i<7; i++) {
+      Connect4Game gameCopy = new Connect4Game(myGame);
+      MyAgent currentAgent = new MyAgent(gameCopy, iAmRed);
       currentAgent.moveOnColumn(i);
       if(iAmRed && gameCopy.gameWon() == 'R') {
         return i;
       }
       else if (!iAmRed && gameCopy.gameWon() == 'Y') {
         return i;
-    
-      }
+      }  
     }
     return -1;
   }
@@ -244,12 +262,9 @@ public class MyAgent extends Agent {
    * @return the column that would allow the opponent to win.
    */
   public int theyCanWin() {
-//    Connect4Game gameCopy = new Connect4Game(myGame);
-//    MyAgent copyAgent = new MyAgent(gameCopy, iAmRed);
-    Connect4Game gameCopy = new Connect4Game(myGame);
-    MyAgent opponentAgent = new MyAgent(gameCopy, !iAmRed);
     for(int i=0; i<7; i++) {
-//      copyAgent.moveOnColumn(i);
+      Connect4Game gameCopy = new Connect4Game(myGame);
+      MyAgent opponentAgent = new MyAgent(gameCopy, !iAmRed);
       opponentAgent.moveOnColumn(i);
       if(iAmRed && gameCopy.gameWon() == 'Y') {
         return i;
@@ -257,14 +272,7 @@ public class MyAgent extends Agent {
       else if (!iAmRed && gameCopy.gameWon() == 'R') {
         return i;
       }
-      
-      
-//      else if(gameCopy2.gameWon() == 'R') {
-//        return i;
-//      }
-
-    }
-    
+    } 
     return -1;
   }
 
