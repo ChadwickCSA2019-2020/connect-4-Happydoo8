@@ -143,7 +143,6 @@ public class Connect4Game {
      */
     public char gameWon() {
         char[][] board = getBoardMatrix();
-
         for (int i = 0; i < getColumnCount(); i++) {
             for (int j = 0; j < getRowCount(); j++) {
                 if (board[j][i] != 'B') {
@@ -169,6 +168,33 @@ public class Connect4Game {
                             return board[j][i];
                         }
                     }
+                    if (i>0 && i+2<getColumnCount()) {
+                        if (board[j][i]==board[j][i-1] && board[j][i]==board[j][i+1] && board[j][i]==board[j][i+2]) {
+                            highlightSlot(j, i);
+                            highlightSlot(j, i - 1);
+                            highlightSlot(j, i + 1);
+                            highlightSlot(j, i + 2);
+                            return board[j][i];
+                        }
+                    }
+                    if (i>1 && i+1<getColumnCount()) {
+                        if (board[j][i]==board[j][i-2] && board[j][i]==board[j][i-1] && board[j][i]==board[j][i+1]) {
+                            highlightSlot(j, i);
+                            highlightSlot(j, i - 2);
+                            highlightSlot(j, i - 1);
+                            highlightSlot(j, i + 1);
+                            return board[j][i];
+                        }
+                    }
+                    if (i>2 && i<getColumnCount()) {
+                        if (board[j][i]==board[j][i-3] && board[j][i]==board[j][i-2] && board[j][i]==board[j][i-1]) {
+                            highlightSlot(j, i);
+                            highlightSlot(j, i - 3);
+                            highlightSlot(j, i - 2);
+                            highlightSlot(j, i - 1);
+                            return board[j][i];
+                        }
+                    }
                     if (i + 3 < getColumnCount() && j + 3 < getRowCount()) {
                         if (board[j][i] == board[j + 1][i + 1]
                                 && board[j][i] == board[j + 2][i + 2]
@@ -177,6 +203,39 @@ public class Connect4Game {
                             highlightSlot(j + 1, i + 1);
                             highlightSlot(j + 2, i + 2);
                             highlightSlot(j + 3, i + 3);
+                            return board[j][i];
+                        }
+                    }  
+                    if (i + 2 < getColumnCount() && j + 2 < getRowCount() && i>0 && j>0) {
+                        if (board[j][i] == board[j - 1][i - 1]
+                               && board[j][i] == board[j + 1][i + 1]
+                               && board[j][i] == board[j + 2][i + 2]) {
+                            highlightSlot(j, i);
+                            highlightSlot(j - 1, i - 1);
+                            highlightSlot(j + 1, i + 1);
+                            highlightSlot(j + 2, i + 2);
+                            return board[j][i];
+                        }
+                    }
+                    if (i + 1 < getColumnCount() && j + 1 < getRowCount() && i>1 && j>1) {
+                        if (board[j][i] == board[j - 2][i - 2]
+                               && board[j][i] == board[j - 1][i - 1]
+                               && board[j][i] == board[j + 1][i + 1]) {
+                            highlightSlot(j, i);
+                            highlightSlot(j - 2, i - 2);
+                            highlightSlot(j - 1, i - 1);
+                            highlightSlot(j + 1, i + 1);
+                            return board[j][i];
+                        }
+                    }
+                    if (i < getColumnCount() && j < getRowCount() && i>2 && j>2) {
+                        if (board[j][i] == board[j - 3][i - 3]
+                               && board[j][i] == board[j - 2][i - 2]
+                               && board[j][i] == board[j - 1][i - 1]) {
+                            highlightSlot(j, i);
+                            highlightSlot(j - 3, i - 3);
+                            highlightSlot(j - 2, i - 2);
+                            highlightSlot(j - 1, i - 1);
                             return board[j][i];
                         }
                     }
@@ -188,6 +247,39 @@ public class Connect4Game {
                             highlightSlot(j + 1, i - 1);
                             highlightSlot(j + 2, i - 2);
                             highlightSlot(j + 3, i - 3);
+                            return board[j][i];
+                        }
+                    }
+                    if (i > 1 && j + 2 < getRowCount() && j>0 && i+1<getColumnCount()) {
+                        if (board[j][i] == board[j + 1][i - 1]
+                               && board[j][i] == board[j + 2][i - 2]
+                               && board[j][i] == board[j - 1][i + 1]) {
+                            highlightSlot(j, i);
+                            highlightSlot(j + 1, i - 1);
+                            highlightSlot(j + 2, i - 2);
+                            highlightSlot(j - 1, i + 1);
+                            return board[j][i];
+                        }
+                    }
+                    if (i > 0 && j + 1 < getRowCount() && j>1 && i+2<getColumnCount()) {
+                        if (board[j][i] == board[j + 1][i - 1]
+                               && board[j][i] == board[j - 2][i + 2]
+                               && board[j][i] == board[j - 1][i + 1]) {
+                            highlightSlot(j, i);
+                            highlightSlot(j + 1, i - 1);
+                            highlightSlot(j - 2, i + 2);
+                            highlightSlot(j - 1, i + 1);
+                            return board[j][i];
+                        }
+                    }
+                    if (i > -1 && j + 0 < getRowCount() && j>2 && i+3<getColumnCount()) {
+                        if (board[j][i] == board[j - 1][i + 1]
+                               && board[j][i] == board[j - 2][i + 2]
+                               && board[j][i] == board[j - 3][i + 3]) {
+                            highlightSlot(j, i);
+                            highlightSlot(j - 1, i + 1);
+                            highlightSlot(j - 2, i + 2);
+                            highlightSlot(j - 3, i + 3);
                             return board[j][i];
                         }
                     }
