@@ -42,93 +42,242 @@ public class MyAgent extends Agent {
    */
   public void move() {
     Connect4Game gameCopy = new Connect4Game(myGame);
-	  if(iCanWin() != -1) {
-	    moveOnColumn(iCanWin());
-	  }
-	  else if(theyCanWin() != -1) {
+    if(theyCanWin() != -1) {
       moveOnColumn(theyCanWin());
     }
+    else if(iCanWin() != -1) {
+	    moveOnColumn(iCanWin());
+	  }
 	  else {
 	    char [][] board = gameCopy.getBoardMatrix();
 	    int max = 0;
 	    int col = -1;
-	    for(int i=0; i<3; i++) {
-	      for(int j=0; j<4; j++) {
+	    int colmt = -1;
+	    int colBoth = 0;
+	    int colNot = -1;
+	    for(int i=0; i<gameCopy.getRowCount()-3; i++) {
+	      for(int j=0; j<gameCopy.getColumnCount(); j++) {
 	        int count = 1;
 	        // Vertical checking
-	        if(board[i][j] == board[i+1][j] && board[i+2][j] == 'B') {
-	          count++;
+	        if(board[i][j] == 'R' && board[i+1][j] == 'R' && board[i+2][j] == 'B') {
+	          moveOnColumn(j);
 	        }
 	        /*else {
 	          this.moveOnColumn(this.randomMove());
 	        }*/
-	        if(count > max) {
+	        /*if(count > max) {
 	          max = count;
 	          col = j;
-	        }
+	        }*/
 	      }
 	    }
+	    for(int i=0; i<gameCopy.getRowCount()-3; i++) {
+        for(int j=0; j<gameCopy.getColumnCount(); j++) {
+          int count = 1;
+          // Vertical checking
+          if(board[i][j] == 'Y' && board[i+1][j] == 'Y' && board[i+2][j] == 'B') {
+            moveOnColumn(j);
+          }
+          /*else {
+            this.moveOnColumn(this.randomMove());
+          }*/
+          /*if(count > max) {
+            max = count;
+            col = j;
+          }*/
+        }
+      }
 	    
-	    for(int i=0; i<3; i++) {
-	      for(int j=0; j<4; j++) {
+	    for(int i=0; i<gameCopy.getRowCount(); i++) {
+	      for(int j=0; j<gameCopy.getColumnCount()-3; j++) {
 	        // Horizontal checking
 	        
 	        int count = 1;
-	        if(board[i][j] == board[i][j+1]) {
-	          count++;
+	        if(board[i][j] == 'R' && board[i][j+1] == 'R' && board[i][j+2] == 'B') {
+	          moveOnColumn(j+2);
 	        }
 	        /*else {
 	          this.moveOnColumn(this.randomMove());
 	        }*/
-	        if(count > max) {
+	        /*if(count > max) {
 	          if(i==0 || board[i-1][j+2] != 'B' && board[i][j+2] == 'B') {
 	            max = count;
 	            col = j+2;
 	          }
-	        }
+	        }*/
+	        if(i>0 && j>0 && board[i-1][j+2] != 'B' && board[i][j+2] == 'B' && board[i-1][j-1]!='B' && board[i][j-1]=='B') {
+            colmt = j;
+            colBoth = 1;
+          }
 	      }
 	    }
+	    for(int i=0; i<gameCopy.getRowCount(); i++) {
+        for(int j=0; j<gameCopy.getColumnCount()-3; j++) {
+          // Horizontal checking
+          
+          int count = 1;
+          if(board[i][j] == 'Y' && board[i][j+1] == 'Y' && board[i][j+2] == 'B') {
+            moveOnColumn(j+2);
+          }
+          /*else {
+            this.moveOnColumn(this.randomMove());
+          }*/
+          /*if(count > max) {
+            if(i==0 || board[i-1][j+2] != 'B' && board[i][j+2] == 'B') {
+              max = count;
+              col = j+2;
+            }
+          }*/
+          if(i>0 && j>0 && board[i-1][j+2] != 'B' && board[i][j+2] == 'B' && board[i-1][j-1]!='B' && board[i][j-1]=='B') {
+            colmt = j;
+            colBoth = 1;
+          }
+        }
+      }
 	        
-	    for(int i=0; i<3; i++) {
-	      for(int j=3; j<7; j++) {
-	        // Major diagonal checking
+	    for(int i=0; i<gameCopy.getRowCount()-3; i++) {
+	      for(int j=3; j<gameCopy.getColumnCount(); j++) {
+	        // Minor diagonal checking
 	        int count = 1;
-	        if(board[i][j] == board[i+1][j-1]) {
-	          count++;
+	        if(board[i][j] == 'R' && board[i+1][j-1] == 'R' && board[i][j-2] != 'B' && board[i+1][j-2] != 'B') {
+	          moveOnColumn(j-2);
 	        }
 	        /*else {
 	          this.moveOnColumn(this.randomMove());
 	        }*/
-	        if(count > max) {
+	        /*if(count > max) {
 	          if(board[i+1][j-2] != 'B' && board[i+2][j-2] == 'B') {
 	            max = count;
 	            col = j-2;
 	          }
-	        }
+	        }*/
+	        if(i>1 && j>1 && board[i+1][j-2] != 'B' && board[i+2][j-2] == 'B' && board[i-1][j+1]=='B' && board[i-2][j+1]!='B') {
+            if(col<500) {
+              colmt = j;
+              colBoth = 3;
+            }
+          }
 	      }
 	    }
+	    for(int i=0; i<gameCopy.getRowCount()-3; i++) {
+        for(int j=3; j<gameCopy.getColumnCount(); j++) {
+          // Minor diagonal checking
+          int count = 1;
+          if(board[i][j] == 'Y' && board[i+1][j-1] == 'Y' && board[i][j-2] != 'B' && board[i+1][j-2] != 'B') {
+            moveOnColumn(j-2);
+          }
+          /*else {
+            this.moveOnColumn(this.randomMove());
+          }*/
+          /*if(count > max) {
+            if(board[i+1][j-2] != 'B' && board[i+2][j-2] == 'B') {
+              max = count;
+              col = j-2;
+            }
+          }*/
+          if(i>1 && j>1 && board[i+1][j-2] != 'B' && board[i+2][j-2] == 'B' && board[i-1][j+1]=='B' && board[i-2][j+1]!='B') {
+            if(col<500) {
+              colmt = j;
+              colBoth = 3;
+            }
+          }
+        }
+      }
 	    
-	    // Minor diagonal checking
+	    // Major diagonal checking
 	    
-	    for(int i=0; i<3; i++) {
-	      for(int j=0; j<4; j++) {
+	    for(int i=0; i<gameCopy.getRowCount()-3; i++) {
+	      for(int j=0; j<gameCopy.getColumnCount()-3; j++) {
 	        int count = 1;
-	        if(board[i][j] == board[i+1][j+1]) {
-	          count++;
+	        if(board[i][j] == 'R' && board[i+1][j+1] == 'R' && board[i][j+2] != 'B' && board[i+1][j+2] != 'B') {
+	          moveOnColumn(j+2);
 	        }
 	        /*else {
 	          this.moveOnColumn(this.randomMove());
 	        }*/
-	        if(count > max) {
+	        /*if(count > max) {
 	          if(board[i][j+2] != 'B' && board[i+1][j+2] == 'B') {
 	            max = count;
 	            col = j+2;
 	          }
-	        }
+	        }*/
+	        if(i>1 && j>0 && board[i][j+2] != 'B' && board[i+1][j+2] == 'B' && board[i-1][j-1]=='B' && board[i-2][j-1]!='B') {
+            if(col<1000) {
+              colmt = j;
+              colBoth = 2;
+            }
+          }
 	      }
 	    }
-	    
-	    moveOnColumn(col);
+	    for(int i=0; i<gameCopy.getRowCount()-3; i++) {
+        for(int j=0; j<gameCopy.getColumnCount()-3; j++) {
+          int count = 1;
+          if(board[i][j] == 'Y' && board[i+1][j+1] == 'Y' && board[i][j+2] != 'B' && board[i+1][j+2] != 'B') {
+            moveOnColumn(j+2);
+          }
+          /*else {
+            this.moveOnColumn(this.randomMove());
+          }*/
+          /*if(count > max) {
+            if(board[i][j+2] != 'B' && board[i+1][j+2] == 'B') {
+              max = count;
+              col = j+2;
+            }
+          }*/
+          if(i>1 && j>0 && board[i][j+2] != 'B' && board[i+1][j+2] == 'B' && board[i-1][j-1]=='B' && board[i-2][j-1]!='B') {
+            if(col<1000) {
+              colmt = j;
+              colBoth = 2;
+            }
+          }
+        }
+      }
+	    for(int i=0; i<gameCopy.getRowCount()-3; i++) {
+        for(int j=0; j<gameCopy.getColumnCount()-3; j++) {
+          colNot = -1;
+          if(board[i+1][j+3] != 'B' && board[i][j+3] != 'B' && board[i][j] == 'R' && board[i+1][j+1] == 'R' && board[i+2][j+2] == 'R') {
+            colNot = 1;
+          }
+        }
+      }
+	    for(int i=0; i<gameCopy.getRowCount()-3; i++) {
+        for(int j=0; j<gameCopy.getColumnCount()-3; j++) {
+          colNot = -1;
+          if(board[i+1][j+3] != 'B' && board[i][j+3] != 'B' && board[i][j] == 'Y' && board[i+1][j+1] == 'Y' && board[i+2][j+2] == 'Y') {
+            colNot = 1;
+          }
+        }
+      }
+	    for(int i=0; i<gameCopy.getRowCount()-3; i++) {
+        for(int j=3; j<gameCopy.getColumnCount(); j++) {
+          colNot = -1;
+          if(board[i+1][j-3] != 'B' && board[i][j-3] != 'B' && board[i+1][j-1] == 'R' && board[i+2][j-2] == 'R' && board[i+3][j-3] == 'R') {
+            colNot = 1;
+          }
+        }
+      }
+	    for(int i=0; i<gameCopy.getRowCount()-3; i++) {
+        for(int j=3; j<gameCopy.getColumnCount(); j++) {
+          colNot = -1;
+          if(board[i+1][j-3] != 'B' && board[i][j-3] != 'B' && board[i+1][j-1] == 'Y' && board[i+2][j-2] == 'Y' && board[i+3][j-3] == 'Y') {
+            colNot = 1;
+          }
+        }
+      }
+	    if (colBoth==1 || colBoth==2 || colBoth==3) {
+        moveOnColumn(colmt);
+      }
+	    else if(colNot != -1) {
+        moveOnColumn(randomMove());
+      }
+	    else {
+        if(col>=0) {
+          moveOnColumn(col);
+        }
+        else {
+          moveOnColumn(randomMove());
+        }
+      }
 	    // Try to find the position to make 2 in a row to 3 in a row.
 	    // If none, then try to change 1 in a row to 2 in a row.
 	    // If none, then place randomly
@@ -275,6 +424,8 @@ public class MyAgent extends Agent {
     } 
     return -1;
   }
+  
+  
 
   /**
    * Returns the name of this agent.
